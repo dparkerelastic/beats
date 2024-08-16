@@ -33,6 +33,7 @@ grouped in the following categories:
 * <<exported-fields-coredns>>
 * <<exported-fields-couchbase>>
 * <<exported-fields-couchdb>>
+* <<exported-fields-danslaptop>>
 * <<exported-fields-docker-processor>>
 * <<exported-fields-docker>>
 * <<exported-fields-dropwizard>>
@@ -60,6 +61,7 @@ grouped in the following categories:
 * <<exported-fields-linux>>
 * <<exported-fields-logstash>>
 * <<exported-fields-memcached>>
+* <<exported-fields-meraki>>
 * <<exported-fields-mongodb>>
 * <<exported-fields-mssql>>
 * <<exported-fields-munin>>
@@ -13474,6 +13476,36 @@ Number of file descriptors CouchDB has open
 
 
 type: long
+
+--
+
+[[exported-fields-danslaptop]]
+== danslaptop fields
+
+danslaptop module
+
+
+
+[float]
+=== danslaptop
+
+
+
+
+[float]
+=== time
+
+time
+
+
+
+*`danslaptop.time.example`*::
++
+--
+Example field
+
+
+type: keyword
 
 --
 
@@ -50450,6 +50482,189 @@ Number of bytes this server is allowed to use for storage.
 
 
 type: long
+
+--
+
+[[exported-fields-meraki]]
+== meraki fields
+
+meraki module
+
+
+
+[float]
+=== meraki
+
+
+
+
+[float]
+=== ap_radio_utilization
+
+ap_radio_utilization
+
+
+
+*`meraki.ap_radio_utilization.example`*::
++
+--
+Example field
+
+
+type: keyword
+
+--
+
+[float]
+=== cellular_gateway_health_performance
+
+cellular_gateway_health_performance
+
+
+
+*`meraki.cellular_gateway_health_performance.example`*::
++
+--
+Example field
+
+
+type: keyword
+
+--
+
+[float]
+=== device_counts
+
+device_counts
+
+
+
+*`meraki.device_counts.example`*::
++
+--
+Example field
+
+
+type: keyword
+
+--
+
+[float]
+=== device_health_status
+
+device_health_status
+
+
+
+*`meraki.device_health_status.example`*::
++
+--
+Example field
+
+
+type: keyword
+
+--
+
+[float]
+=== fw_performance_score
+
+fw_performance_score
+
+
+
+*`meraki.fw_performance_score.example`*::
++
+--
+Example field
+
+
+type: keyword
+
+--
+
+[float]
+=== fw_tunnels
+
+fw_tunnels
+
+
+
+*`meraki.fw_tunnels.example`*::
++
+--
+Example field
+
+
+type: keyword
+
+--
+
+[float]
+=== fw_uplink_status_and_loss_latency
+
+fw_uplink_status_and_loss_latency
+
+
+
+*`meraki.fw_uplink_status_and_loss_latency.example`*::
++
+--
+Example field
+
+
+type: keyword
+
+--
+
+[float]
+=== ha_status
+
+ha_status
+
+
+
+*`meraki.ha_status.example`*::
++
+--
+Example field
+
+
+type: keyword
+
+--
+
+[float]
+=== interfaces
+
+interfaces
+
+
+
+*`meraki.interfaces.example`*::
++
+--
+Example field
+
+
+type: keyword
+
+--
+
+[float]
+=== license_expiration_state
+
+license_expiration_state
+
+
+
+*`meraki.license_expiration_state.example`*::
++
+--
+Example field
+
+
+type: keyword
 
 --
 

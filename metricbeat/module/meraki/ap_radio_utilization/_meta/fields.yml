@@ -1,0 +1,10 @@
+- name: ap_radio_utilization
+  type: group
+  release: beta
+  description: >
+    ap_radio_utilization
+  fields:
+    - name: example
+      type: keyword
+      description: >
+        Example field

@@ -85,6 +85,8 @@ This file is generated! See scripts/mage/docs_collector.go
 |<<metricbeat-metricset-couchbase-node,node>>   
 |<<metricbeat-module-couchdb,CouchDB>>     |image:./images/icon-yes.png[Prebuilt dashboards are available]    |  
 .1+| .1+|  |<<metricbeat-metricset-couchdb-server,server>>   
+|<<metricbeat-module-danslaptop,danslaptop>>  beta[]   |image:./images/icon-no.png[No prebuilt dashboards]    |  
+.1+| .1+|  |<<metricbeat-metricset-danslaptop-time,time>> beta[]  
 |<<metricbeat-module-docker,Docker>>     |image:./images/icon-yes.png[Prebuilt dashboards are available]    |  
 .10+| .10+|  |<<metricbeat-metricset-docker-container,container>>   
 |<<metricbeat-metricset-docker-cpu,cpu>>   
@@ -213,6 +215,17 @@ This file is generated! See scripts/mage/docs_collector.go
 |<<metricbeat-metricset-logstash-node_stats,node_stats>>   
 |<<metricbeat-module-memcached,Memcached>>     |image:./images/icon-no.png[No prebuilt dashboards]    |  
 .1+| .1+|  |<<metricbeat-metricset-memcached-stats,stats>>   
+|<<metricbeat-module-meraki,meraki>>  beta[]   |image:./images/icon-no.png[No prebuilt dashboards]    |  
+.10+| .10+|  |<<metricbeat-metricset-meraki-ap_radio_utilization,ap_radio_utilization>> beta[]  
+|<<metricbeat-metricset-meraki-cellular_gateway_health_performance,cellular_gateway_health_performance>> beta[]  
+|<<metricbeat-metricset-meraki-device_counts,device_counts>> beta[]  
+|<<metricbeat-metricset-meraki-device_health_status,device_health_status>> beta[]  
+|<<metricbeat-metricset-meraki-fw_performance_score,fw_performance_score>> beta[]  
+|<<metricbeat-metricset-meraki-fw_tunnels,fw_tunnels>> beta[]  
+|<<metricbeat-metricset-meraki-fw_uplink_status_and_loss_latency,fw_uplink_status_and_loss_latency>> beta[]  
+|<<metricbeat-metricset-meraki-ha_status,ha_status>> beta[]  
+|<<metricbeat-metricset-meraki-interfaces,interfaces>> beta[]  
+|<<metricbeat-metricset-meraki-license_expiration_state,license_expiration_state>> beta[]  
 |<<metricbeat-module-mongodb,MongoDB>>     |image:./images/icon-yes.png[Prebuilt dashboards are available]    |  
 .5+| .5+|  |<<metricbeat-metricset-mongodb-collstats,collstats>>   
 |<<metricbeat-metricset-mongodb-dbstats,dbstats>>   
@@ -341,6 +354,7 @@ include::modules/containerd.asciidoc[]
 include::modules/coredns.asciidoc[]
 include::modules/couchbase.asciidoc[]
 include::modules/couchdb.asciidoc[]
+include::modules/danslaptop.asciidoc[]
 include::modules/docker.asciidoc[]
 include::modules/dropwizard.asciidoc[]
 include::modules/elasticsearch.asciidoc[]
@@ -363,6 +377,7 @@ include::modules/kvm.asciidoc[]
 include::modules/linux.asciidoc[]
 include::modules/logstash.asciidoc[]
 include::modules/memcached.asciidoc[]
+include::modules/meraki.asciidoc[]
 include::modules/mongodb.asciidoc[]
 include::modules/mssql.asciidoc[]
 include::modules/munin.asciidoc[]

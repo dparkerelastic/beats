@@ -1,0 +1,10 @@
+- key: danslaptop
+  title: "danslaptop"
+  release: beta
+  description: >
+    danslaptop module
+  fields:
+    - name: danslaptop
+      type: group
+      description: >
+      fields:

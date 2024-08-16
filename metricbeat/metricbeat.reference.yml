@@ -238,6 +238,14 @@ metricbeat.modules:
   period: 10s
   hosts: ["localhost:5984"]
 
+#------------------------------ Danslaptop Module ------------------------------
+- module: danslaptop
+  metricsets: ["time"]
+  enabled: false
+  period: 10s
+  hosts: ["localhost"]
+
+
 #-------------------------------- Docker Module --------------------------------
 - module: docker
   metricsets:
@@ -703,6 +711,14 @@ metricbeat.modules:
   period: 10s
   hosts: ["localhost:11211"]
   enabled: true
+
+#-------------------------------- Meraki Module --------------------------------
+- module: meraki
+  metricsets: ["device_health_status"]
+  enabled: false
+  period: 10s
+  hosts: ["localhost"]
+
 
 #------------------------------- MongoDB Module -------------------------------
 - module: mongodb

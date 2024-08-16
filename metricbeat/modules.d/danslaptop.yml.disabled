@@ -1,0 +1,9 @@
+# Module: danslaptop
+# Docs: https://www.elastic.co/guide/en/beats/metricbeat/main/metricbeat-module-danslaptop.html
+
+- module: danslaptop
+  metricsets: ["time"]
+  enabled: false
+  period: 10s
+  hosts: ["localhost"]
+

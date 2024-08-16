@@ -1,0 +1,46 @@
+////
+This file is generated! See scripts/mage/docs_collector.go
+////
+
+:modulename: danslaptop
+:edit_url: https://github.com/elastic/beats/edit/main/metricbeat/module/danslaptop/_meta/docs.asciidoc
+
+
+[[metricbeat-module-danslaptop]]
+== danslaptop module
+
+beta[]
+
+This is the danslaptop module.
+
+
+
+:edit_url:
+
+[float]
+=== Example configuration
+
+The danslaptop module supports the standard configuration options that are described
+in <<configuration-metricbeat>>. Here is an example configuration:
+
+[source,yaml]
+----
+metricbeat.modules:
+- module: danslaptop
+  metricsets: ["time"]
+  enabled: false
+  period: 10s
+  hosts: ["localhost"]
+
+----
+
+[float]
+=== Metricsets
+
+The following metricsets are available:
+
+* <<metricbeat-metricset-danslaptop-time,time>>
+
+include::danslaptop/time.asciidoc[]
+
+:edit_url!:

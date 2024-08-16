@@ -1,0 +1,82 @@
+////
+This file is generated! See scripts/mage/docs_collector.go
+////
+
+:modulename: meraki
+:edit_url: https://github.com/elastic/beats/edit/main/metricbeat/module/meraki/_meta/docs.asciidoc
+
+
+[[metricbeat-module-meraki]]
+== meraki module
+
+beta[]
+
+This is the meraki module.
+
+
+
+:edit_url:
+
+[float]
+=== Example configuration
+
+The meraki module supports the standard configuration options that are described
+in <<configuration-metricbeat>>. Here is an example configuration:
+
+[source,yaml]
+----
+metricbeat.modules:
+- module: meraki
+  metricsets: ["device_health_status"]
+  enabled: false
+  period: 10s
+  hosts: ["localhost"]
+
+----
+
+[float]
+=== Metricsets
+
+The following metricsets are available:
+
+* <<metricbeat-metricset-meraki-ap_radio_utilization,ap_radio_utilization>>
+
+* <<metricbeat-metricset-meraki-cellular_gateway_health_performance,cellular_gateway_health_performance>>
+
+* <<metricbeat-metricset-meraki-device_counts,device_counts>>
+
+* <<metricbeat-metricset-meraki-device_health_status,device_health_status>>
+
+* <<metricbeat-metricset-meraki-fw_performance_score,fw_performance_score>>
+
+* <<metricbeat-metricset-meraki-fw_tunnels,fw_tunnels>>
+
+* <<metricbeat-metricset-meraki-fw_uplink_status_and_loss_latency,fw_uplink_status_and_loss_latency>>
+
+* <<metricbeat-metricset-meraki-ha_status,ha_status>>
+
+* <<metricbeat-metricset-meraki-interfaces,interfaces>>
+
+* <<metricbeat-metricset-meraki-license_expiration_state,license_expiration_state>>
+
+include::meraki/ap_radio_utilization.asciidoc[]
+
+include::meraki/cellular_gateway_health_performance.asciidoc[]
+
+include::meraki/device_counts.asciidoc[]
+
+include::meraki/device_health_status.asciidoc[]
+
+include::meraki/fw_performance_score.asciidoc[]
+
+include::meraki/fw_tunnels.asciidoc[]
+
+include::meraki/fw_uplink_status_and_loss_latency.asciidoc[]
+
+include::meraki/ha_status.asciidoc[]
+
+include::meraki/interfaces.asciidoc[]
+
+include::meraki/license_expiration_state.asciidoc[]
+
+:edit_url!:

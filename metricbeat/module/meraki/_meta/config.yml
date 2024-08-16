@@ -1,0 +1,6 @@
+- module: meraki
+  metricsets: ["device_health_status"]
+  enabled: false
+  period: 10s
+  hosts: ["localhost"]
+

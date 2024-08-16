@@ -1,0 +1,10 @@
+- name: device_counts
+  type: group
+  release: beta
+  description: >
+    device_counts
+  fields:
+    - name: example
+      type: keyword
+      description: >
+        Example field

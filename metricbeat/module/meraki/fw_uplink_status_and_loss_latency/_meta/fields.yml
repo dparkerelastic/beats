@@ -1,0 +1,10 @@
+- name: fw_uplink_status_and_loss_latency
+  type: group
+  release: beta
+  description: >
+    fw_uplink_status_and_loss_latency
+  fields:
+    - name: example
+      type: keyword
+      description: >
+        Example field
