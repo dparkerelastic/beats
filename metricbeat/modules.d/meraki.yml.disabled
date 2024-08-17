@@ -2,7 +2,7 @@
 # Docs: https://www.elastic.co/guide/en/beats/metricbeat/main/metricbeat-module-meraki.html
 
 - module: meraki
-  metricsets: ["device_health_status"]
+  metricsets: ["device_counts"]
   enabled: false
   period: 10s
   hosts: ["localhost"]
