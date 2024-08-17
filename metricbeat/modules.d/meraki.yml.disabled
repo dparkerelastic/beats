@@ -3,7 +3,7 @@
 
 - module: meraki
   metricsets: ["device_counts"]
-  enabled: false
+  enabled: true
   period: 10s
   hosts: ["localhost"]
 
