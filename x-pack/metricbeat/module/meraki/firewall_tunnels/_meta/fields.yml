@@ -1,0 +1,10 @@
+- name: firewall_tunnels
+  type: group
+  release: beta
+  description: >
+    firewall_tunnels
+  fields:
+    - name: example
+      type: keyword
+      description: >
+        Example field

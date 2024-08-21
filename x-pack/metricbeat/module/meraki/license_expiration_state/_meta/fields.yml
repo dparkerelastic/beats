@@ -1,0 +1,10 @@
+- name: license_expiration_state
+  type: group
+  release: beta
+  description: >
+    license_expiration_state
+  fields:
+    - name: example
+      type: keyword
+      description: >
+        Example field

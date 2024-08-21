@@ -1,0 +1,10 @@
+- name: cellular_gateway_health_performance
+  type: group
+  release: beta
+  description: >
+    cellular_gateway_health_performance
+  fields:
+    - name: example
+      type: keyword
+      description: >
+        Example field

@@ -1,0 +1,14 @@
+# Module: meraki
+# Docs: https://www.elastic.co/guide/en/beats/metricbeat/main/metricbeat-module-meraki.html
+
+- module: meraki
+  metricsets: ["device_counts","dashboard_api"]
+  enabled: true
+  period: 60s
+  hosts: ["https://api.meraki.com"]
+  # This can be used for token based authorization:
+  bearer_token_file: /var/run/secrets/meraki/token
+  headers:
+    Accept: application/json  
+  apiKey: <token>
+  organizations: ["123456"]  

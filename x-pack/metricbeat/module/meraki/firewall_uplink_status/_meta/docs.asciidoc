@@ -1,0 +1,1 @@
+This is the firewall_uplink_status metricset of the module meraki.

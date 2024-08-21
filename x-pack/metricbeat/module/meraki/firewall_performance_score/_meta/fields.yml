@@ -1,0 +1,10 @@
+- name: firewall_performance_score
+  type: group
+  release: beta
+  description: >
+    firewall_performance_score
+  fields:
+    - name: example
+      type: keyword
+      description: >
+        Example field
