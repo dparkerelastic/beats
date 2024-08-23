@@ -1,1 +1,0 @@
-This is the ap_radio_utilization metricset of the module meraki.

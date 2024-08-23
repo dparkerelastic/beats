@@ -1,1 +1,0 @@
-This is the firewall_performance_score metricset of the module meraki.

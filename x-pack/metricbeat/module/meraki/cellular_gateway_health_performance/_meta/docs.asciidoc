@@ -1,1 +1,0 @@
-This is the cellular_gateway_health_performance metricset of the module meraki.
