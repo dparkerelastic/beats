@@ -1,0 +1,10 @@
+- name: device_uplinks_loss_and_latency
+  type: group
+  release: beta
+  description: >
+    device_uplinks_loss_and_latency
+  fields:
+    - name: example
+      type: keyword
+      description: >
+        Example field

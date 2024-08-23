@@ -2,7 +2,7 @@
 # Docs: https://www.elastic.co/guide/en/beats/metricbeat/main/metricbeat-module-meraki.html
 
 - module: meraki
-  metricsets: ["device_counts","dashboard_api"]
+  metricsets: ["device_status","device_uplinks_loss_and_latency","licenses_overview"]
   enabled: true
   period: 60s
   hosts: ["https://api.meraki.com"]
@@ -11,4 +11,4 @@
   headers:
     Accept: application/json  
   apiKey: <token>
-  organizations: ["123456"]  
+  organizations: ["<number>"]  
