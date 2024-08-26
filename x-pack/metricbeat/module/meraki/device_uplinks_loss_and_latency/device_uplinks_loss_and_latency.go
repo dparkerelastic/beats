@@ -6,10 +6,11 @@ import (
 
 	"github.com/elastic/beats/v7/libbeat/common/cfgwarn"
 	"github.com/elastic/beats/v7/metricbeat/mb"
+	"github.com/elastic/beats/v7/x-pack/metricbeat/module/meraki"
 	"github.com/elastic/elastic-agent-libs/logp"
 	"github.com/elastic/elastic-agent-libs/mapstr"
 
-	meraki "github.com/meraki/dashboard-api-go/v3/sdk"
+	meraki_api "github.com/meraki/dashboard-api-go/v3/sdk"
 )
 
 // init registers the MetricSet with the central registry as soon as the program
@@ -17,7 +18,7 @@ import (
 // the MetricSet for each host is defined in the module's configuration. After the
 // MetricSet has been created then Fetch will begin to be called periodically.
 func init() {
-	mb.Registry.MustAddMetricSet("meraki", "device_uplinks_loss_and_latency", New)
+	mb.Registry.MustAddMetricSet(meraki.ModuleName, "device_uplinks_loss_and_latency", New)
 }
 
 type config struct {
@@ -42,7 +43,7 @@ func defaultConfig() *config {
 type MetricSet struct {
 	mb.BaseMetricSet
 	logger        *logp.Logger
-	client        *meraki.Client
+	client        *meraki_api.Client
 	organizations []string
 }
 
@@ -59,7 +60,7 @@ func New(base mb.BaseMetricSet) (mb.MetricSet, error) {
 	}
 
 	logger.Debugf("loaded config: %v", config)
-	client, err := meraki.NewClientWithOptions(config.BaseURL, config.ApiKey, config.DebugMode, "Metricbeat Elastic")
+	client, err := meraki_api.NewClientWithOptions(config.BaseURL, config.ApiKey, config.DebugMode, "Metricbeat Elastic")
 	if err != nil {
 		logger.Error("creating Meraki dashboard API client failed: %w", err)
 		return nil, err
@@ -78,7 +79,8 @@ func New(base mb.BaseMetricSet) (mb.MetricSet, error) {
 // of an error set the Error field of mb.Event or simply call report.Error().
 func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	for _, org := range m.organizations {
-		devices, err := getDevices(m.client, org)
+		//devices, err := getDevices(m.client, org)
+		devices, err := meraki.GetDevices(m.client, org)
 		if err != nil {
 			return err
 		}
@@ -95,44 +97,10 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	return nil
 }
 
-func getDevices(client *meraki.Client, organizationID string) (map[Serial]*Device, error) {
-	val, res, err := client.Organizations.GetOrganizationDevices(organizationID, &meraki.GetOrganizationDevicesQueryParams{})
-
-	if err != nil {
-		return nil, fmt.Errorf("GetOrganizationDevices failed; [%d] %s. %w", res.StatusCode(), res.Body(), err)
-	}
-
-	devices := make(map[Serial]*Device)
-	for _, d := range *val {
-		device := Device{
-			Firmware:    d.Firmware,
-			Imei:        d.Imei,
-			LanIP:       d.LanIP,
-			Location:    []*float64{d.Lng, d.Lat}, // (lon, lat) order is important!
-			Mac:         d.Mac,
-			Model:       d.Model,
-			Name:        d.Name,
-			NetworkID:   d.NetworkID,
-			Notes:       d.Notes,
-			ProductType: d.ProductType,
-			Serial:      d.Serial,
-			Tags:        d.Tags,
-		}
-		if d.Details != nil {
-			for _, detail := range *d.Details {
-				device.Details[detail.Name] = detail.Value
-			}
-		}
-		devices[Serial(device.Serial)] = &device
-	}
-
-	return devices, nil
-}
-
-func getDeviceUplinkMetrics(client *meraki.Client, organizationID string, period time.Duration) ([]*Uplink, error) {
+func getDeviceUplinkMetrics(client *meraki_api.Client, organizationID string, period time.Duration) ([]*Uplink, error) {
 	val, res, err := client.Organizations.GetOrganizationDevicesUplinksLossAndLatency(
 		organizationID,
-		&meraki.GetOrganizationDevicesUplinksLossAndLatencyQueryParams{
+		&meraki_api.GetOrganizationDevicesUplinksLossAndLatencyQueryParams{
 			Timespan: period.Seconds() + 10, // slightly longer than the fetch period to ensure we don't miss measurements due to jitter
 		},
 	)
@@ -145,7 +113,7 @@ func getDeviceUplinkMetrics(client *meraki.Client, organizationID string, period
 
 	for _, device := range *val {
 		uplink := &Uplink{
-			DeviceSerial: Serial(device.Serial),
+			DeviceSerial: meraki.Serial(device.Serial),
 			IP:           device.IP,
 			Interface:    device.Uplink,
 		}
@@ -176,7 +144,7 @@ func getDeviceUplinkMetrics(client *meraki.Client, organizationID string, period
 	return uplinks, nil
 }
 
-func reportDeviceUplinkMetrics(reporter mb.ReporterV2, organizationID string, devices map[Serial]*Device, uplinks []*Uplink) {
+func reportDeviceUplinkMetrics(reporter mb.ReporterV2, organizationID string, devices map[meraki.Serial]*meraki.Device, uplinks []*Uplink) {
 	metrics := []mapstr.M{}
 
 	for _, uplink := range uplinks {
@@ -215,20 +183,5 @@ func reportDeviceUplinkMetrics(reporter mb.ReporterV2, organizationID string, de
 			// missing device metadata; ignore
 		}
 	}
-
-	reportMetricsForOrganization(reporter, organizationID, metrics)
-}
-
-func reportMetricsForOrganization(reporter mb.ReporterV2, organizationID string, metrics ...[]mapstr.M) {
-	for _, metricSlice := range metrics {
-		for _, metric := range metricSlice {
-			event := mb.Event{ModuleFields: mapstr.M{"organization_id": organizationID}}
-			if ts, ok := metric["@timestamp"].(time.Time); ok {
-				event.Timestamp = ts
-				delete(metric, "@timestamp")
-			}
-			event.ModuleFields.Update(metric)
-			reporter.Event(event)
-		}
-	}
+	meraki.ReportMetricsForOrganization(reporter, organizationID, metrics)
 }

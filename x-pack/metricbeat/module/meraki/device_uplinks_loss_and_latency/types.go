@@ -4,32 +4,15 @@
 
 package device_uplinks_loss_and_latency
 
-import "time"
+import (
+	"time"
 
-// device unique identifier
-type Serial string
-
-// Device contains static device attributes (i.e. dimensions)
-type Device struct {
-	Address     string
-	Details     map[string]string
-	Firmware    string
-	Imei        *float64
-	LanIP       string
-	Location    []*float64
-	Mac         string
-	Model       string
-	Name        string
-	NetworkID   string
-	Notes       string
-	ProductType string // one of ["appliance", "camera", "cellularGateway", "secureConnect", "sensor", "switch", "systemsManager", "wireless", "wirelessController"]
-	Serial      string
-	Tags        []string
-}
+	"github.com/elastic/beats/v7/x-pack/metricbeat/module/meraki"
+)
 
 // Uplink contains static device uplink attributes; uplinks are always associated with a device
 type Uplink struct {
-	DeviceSerial Serial
+	DeviceSerial meraki.Serial
 	IP           string
 	Interface    string
 	Metrics      []*UplinkMetric

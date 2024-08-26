@@ -2,14 +2,14 @@ package licenses_overview
 
 import (
 	"fmt"
-	"time"
 
 	"github.com/elastic/beats/v7/libbeat/common/cfgwarn"
 	"github.com/elastic/beats/v7/metricbeat/mb"
+	"github.com/elastic/beats/v7/x-pack/metricbeat/module/meraki"
 	"github.com/elastic/elastic-agent-libs/logp"
 	"github.com/elastic/elastic-agent-libs/mapstr"
 
-	meraki "github.com/meraki/dashboard-api-go/v3/sdk"
+	meraki_api "github.com/meraki/dashboard-api-go/v3/sdk"
 )
 
 // init registers the MetricSet with the central registry as soon as the program
@@ -17,7 +17,7 @@ import (
 // the MetricSet for each host is defined in the module's configuration. After the
 // MetricSet has been created then Fetch will begin to be called periodically.
 func init() {
-	mb.Registry.MustAddMetricSet("meraki", "licenses_overview", New)
+	mb.Registry.MustAddMetricSet(meraki.ModuleName, "licenses_overview", New)
 }
 
 type config struct {
@@ -42,7 +42,7 @@ func defaultConfig() *config {
 type MetricSet struct {
 	mb.BaseMetricSet
 	logger        *logp.Logger
-	client        *meraki.Client
+	client        *meraki_api.Client
 	organizations []string
 }
 
@@ -59,7 +59,7 @@ func New(base mb.BaseMetricSet) (mb.MetricSet, error) {
 	}
 
 	logger.Debugf("loaded config: %v", config)
-	client, err := meraki.NewClientWithOptions(config.BaseURL, config.ApiKey, config.DebugMode, "Metricbeat Elastic")
+	client, err := meraki_api.NewClientWithOptions(config.BaseURL, config.ApiKey, config.DebugMode, "Metricbeat Elastic")
 	if err != nil {
 		logger.Error("creating Meraki dashboard API client failed: %w", err)
 		return nil, err
@@ -90,7 +90,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	return nil
 }
 
-func getLicenseStates(client *meraki.Client, organizationID string) ([]*CoterminationLicense, []*PerDeviceLicense, *SystemsManagerLicense, error) {
+func getLicenseStates(client *meraki_api.Client, organizationID string) ([]*CoterminationLicense, []*PerDeviceLicense, *SystemsManagerLicense, error) {
 	val, res, err := client.Organizations.GetOrganizationLicensesOverview(organizationID)
 
 	if err != nil {
@@ -210,7 +210,7 @@ func reportLicenseMetrics(reporter mb.ReporterV2, organizationID string, cotermL
 				"license.count":           license.Count,
 			})
 		}
-		reportMetricsForOrganization(reporter, organizationID, cotermLicenseMetrics)
+		meraki.ReportMetricsForOrganization(reporter, organizationID, cotermLicenseMetrics)
 	}
 
 	if len(perDeviceLicenses) != 0 {
@@ -228,11 +228,12 @@ func reportLicenseMetrics(reporter mb.ReporterV2, organizationID string, cotermL
 				"license.type":                      license.Type,
 			})
 		}
-		reportMetricsForOrganization(reporter, organizationID, perDeviceLicenseMetrics)
+		meraki.ReportMetricsForOrganization(reporter, organizationID, perDeviceLicenseMetrics)
 	}
 
 	if systemsManagerLicense != nil {
-		reportMetricsForOrganization(reporter, organizationID, []mapstr.M{
+
+		meraki.ReportMetricsForOrganization(reporter, organizationID, []mapstr.M{
 			{
 				"license.systems_manager.active_seats":            systemsManagerLicense.ActiveSeats,
 				"license.systems_manager.orgwideenrolled_devices": systemsManagerLicense.OrgwideEnrolledDevices,
@@ -240,19 +241,5 @@ func reportLicenseMetrics(reporter mb.ReporterV2, organizationID string, cotermL
 				"license.systems_manager.unassigned_seats":        systemsManagerLicense.UnassignedSeats,
 			},
 		})
-	}
-}
-
-func reportMetricsForOrganization(reporter mb.ReporterV2, organizationID string, metrics ...[]mapstr.M) {
-	for _, metricSlice := range metrics {
-		for _, metric := range metricSlice {
-			event := mb.Event{ModuleFields: mapstr.M{"organization_id": organizationID}}
-			if ts, ok := metric["@timestamp"].(time.Time); ok {
-				event.Timestamp = ts
-				delete(metric, "@timestamp")
-			}
-			event.ModuleFields.Update(metric)
-			reporter.Event(event)
-		}
 	}
 }
