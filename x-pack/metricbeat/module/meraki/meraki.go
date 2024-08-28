@@ -2,6 +2,8 @@ package meraki
 
 import (
 	"fmt"
+	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/elastic/beats/v7/metricbeat/mb"
@@ -15,27 +17,27 @@ const ModuleName = "meraki"
 
 // func init() {
 
-// 	if err := mb.Registry.AddModule(ModuleName, newModule); err != nil {
-// 		panic(err)
-// 	}
+//  if err := mb.Registry.AddModule(ModuleName, newModule); err != nil {
+//      panic(err)
+//  }
 // }
 
 // // Config defines all required and optional parameters for meraki metricsets
 // type Config struct {
-// 	Token         string   `config:"apiKey" validate:"nonzero,required"`
-// 	Organizations []string `config:"organizations" validate:"nonzero,required"`
+//  Token         string   `config:"apiKey" validate:"nonzero,required"`
+//  Organizations []string `config:"organizations" validate:"nonzero,required"`
 // }
 
 // // newModule adds validation that hosts is non-empty, a requirement to use the
 // // mssql module.
 // func newModule(base mb.BaseModule) (mb.Module, error) {
-// 	// Validate that at least one host has been specified.
-// 	var config Config
-// 	if err := base.UnpackConfig(&config); err != nil {
-// 		return nil, err
-// 	}
+//  // Validate that at least one host has been specified.
+//  var config Config
+//  if err := base.UnpackConfig(&config); err != nil {
+//      return nil, err
+//  }
 
-// 	return &base, nil
+//  return &base, nil
 // }
 
 func ReportMetricsForOrganization(reporter mb.ReporterV2, organizationID string, metrics ...[]mapstr.M) {
@@ -85,4 +87,40 @@ func GetDevices(client *meraki_api.Client, organizationID string) (map[Serial]*D
 	}
 
 	return devices, nil
+}
+
+func HttpGetRequestWithMerakiRetry(url string, token string, retry int) (*http.Response, error) {
+	//https://developer.cisco.com/meraki/api-v1/get-device-appliance-performance/
+	//url = m.meraki_url + "/api/v1/devices/" + serial + "/appliance/performance"
+
+	// Create a Bearer string by appending string access token
+	var bearer = "Bearer " + token
+
+	// Create a new request using http
+	req, _ := http.NewRequest("GET", url, nil)
+
+	// add authorization header to the req
+	req.Header.Add("Authorization", bearer)
+	req.Header.Add("Accept", "application/json")
+
+	client := &http.Client{}
+	response, err := client.Do(req)
+
+	// NEED TO ADD RETRY LOGIC
+	//https://github.com/meraki/dashboard-api-go/blob/25b775d00e5c392677399e4fb1dfb0cfb67badce/sdk/api_client.go#L104C1-L123C3
+	//https://developer.cisco.com/meraki/api-v1/rate-limit/#rate-limit
+
+	for i := 0; i < retry && response.StatusCode == 429; i++ {
+
+		retryHeader := response.Header.Get("Retry-After")
+		if _, err := strconv.Atoi(retryHeader); err == nil {
+			time.ParseDuration(retryHeader + "s")
+			fmt.Println("Paused for time:" + retryHeader + "s")
+		}
+		response, err = client.Do(req)
+
+	}
+
+	return response, err
+
 }
