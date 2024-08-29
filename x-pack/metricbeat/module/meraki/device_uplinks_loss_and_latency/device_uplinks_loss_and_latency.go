@@ -79,7 +79,7 @@ func New(base mb.BaseMetricSet) (mb.MetricSet, error) {
 // of an error set the Error field of mb.Event or simply call report.Error().
 func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	for _, org := range m.organizations {
-		//devices, err := getDevices(m.client, org)
+
 		devices, err := meraki.GetDevices(m.client, org)
 		if err != nil {
 			return err

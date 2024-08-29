@@ -1,0 +1,1 @@
+This is the device_uplinks_status_and_ha metricset of the module meraki.
