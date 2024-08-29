@@ -56,6 +56,7 @@ import (
 	_ "github.com/elastic/beats/v7/x-pack/metricbeat/module/meraki/device_uplinks_loss_and_latency"
 	_ "github.com/elastic/beats/v7/x-pack/metricbeat/module/meraki/device_uplinks_overview"
 	_ "github.com/elastic/beats/v7/x-pack/metricbeat/module/meraki/device_uplinks_status_and_ha"
+	_ "github.com/elastic/beats/v7/x-pack/metricbeat/module/meraki/device_uplinks_cellular_gateway_status"
 	_ "github.com/elastic/beats/v7/x-pack/metricbeat/module/meraki/licenses_overview"
 	_ "github.com/elastic/beats/v7/x-pack/metricbeat/module/mssql"
 	_ "github.com/elastic/beats/v7/x-pack/metricbeat/module/mssql/performance"
