@@ -89,7 +89,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 			return fmt.Errorf("CellularGateway.GetOrganizationCellularGatewayUplinkStatuses failed; [%d] %s. %w", res.StatusCode(), res.Body(), err)
 		}
 
-		fmt.Printf("CellularGateway.GetOrganizationCellularGatewayUplinkStatuses debug; [%d] %s.", res.StatusCode(), res.Body())
+		//fmt.Printf("CellularGateway.GetOrganizationCellularGatewayUplinkStatuses debug; [%d] %s.", res.StatusCode(), res.Body())
 
 		reportApplianceUplinkStatuses(reporter, org, devices, val)
 	}
@@ -150,21 +150,5 @@ func reportApplianceUplinkStatuses(reporter mb.ReporterV2, organizationID string
 			}
 		}
 	}
-
-	// Apn            string                                                                                    `json:"apn,omitempty"`            // Access Point Name
-	// ConnectionType string                                                                                    `json:"connectionType,omitempty"` // Connection Type
-	// DNS1           string                                                                                    `json:"dns1,omitempty"`           // Primary DNS IP
-	// DNS2           string                                                                                    `json:"dns2,omitempty"`           // Secondary DNS IP
-	// Gateway        string                                                                                    `json:"gateway,omitempty"`        // Gateway IP
-	// Iccid          string                                                                                    `json:"iccid,omitempty"`          // Integrated Circuit Card Identification Number
-	// Interface      string                                                                                    `json:"interface,omitempty"`      // Uplink interface
-	// IP             string                                                                                    `json:"ip,omitempty"`             // Uplink IP
-	// Model          string                                                                                    `json:"model,omitempty"`          // Uplink model
-	// Provider       string                                                                                    `json:"provider,omitempty"`       // Network Provider
-	// PublicIP       string                                                                                    `json:"publicIp,omitempty"`       // Public IP
-	// SignalStat     *ResponseItemCellularGatewayGetOrganizationCellularGatewayUplinkStatusesUplinksSignalStat `json:"signalStat,omitempty"`     // Tower Signal Status
-	// SignalType     string                                                                                    `json:"signalType,omitempty"`     // Signal Type
-	// Status         string                                                                                    `json:"status,omitempty"`         // Uplink status
-
 	meraki.ReportMetricsForOrganization(reporter, organizationID, metrics)
 }
