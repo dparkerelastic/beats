@@ -106,7 +106,7 @@ func reportApplianceUplinkStatuses(reporter mb.ReporterV2, organizationID string
 		if device, ok := devices[meraki.Serial(uplink.Serial)]; ok {
 			metric := mapstr.M{
 				//this one should be deleted, I just want to see if it matches the device.network_id
-				"device.uplink.cellular.gateway.networkd_id":      uplink.NetworkID,
+				//"device.uplink.cellular.gateway.networkd_id":      uplink.NetworkID,
 				"device.uplink.cellular.gateway.last_reported_at": uplink.LastReportedAt,
 				"device.address":      device.Address,
 				"device.firmware":     device.Firmware,
