@@ -7,6 +7,7 @@ package gcs
 import (
 	"context"
 	"fmt"
+	"reflect"
 	"time"
 
 	"cloud.google.com/go/storage"
@@ -15,6 +16,7 @@ import (
 	v2 "github.com/elastic/beats/v7/filebeat/input/v2"
 	cursor "github.com/elastic/beats/v7/filebeat/input/v2/input-cursor"
 	"github.com/elastic/beats/v7/libbeat/feature"
+	"github.com/elastic/beats/v7/libbeat/management/status"
 	"github.com/elastic/beats/v7/libbeat/statestore"
 	conf "github.com/elastic/elastic-agent-libs/config"
 	"github.com/elastic/elastic-agent-libs/logp"
@@ -50,7 +52,7 @@ func Plugin(log *logp.Logger, store statestore.States) v2.Plugin {
 	}
 }
 
-func configure(cfg *conf.C) ([]cursor.Source, cursor.Input, error) {
+func configure(cfg *conf.C, _ *logp.Logger) ([]cursor.Source, cursor.Input, error) {
 	config := defaultConfig()
 	if err := cfg.Unpack(&config); err != nil {
 		return nil, nil, err
@@ -89,6 +91,7 @@ func tryOverrideOrDefault(cfg config, b bucket) bucket {
 	if b.MaxWorkers == nil {
 		b.MaxWorkers = &cfg.MaxWorkers
 	}
+
 	if b.BatchSize == nil && cfg.BatchSize != 0 {
 		// If the global batch size is set, use it
 		b.BatchSize = &cfg.BatchSize
@@ -98,25 +101,39 @@ func tryOverrideOrDefault(cfg config, b bucket) bucket {
 		// This is to maintain backward compatibility with the old config.
 		b.BatchSize = b.MaxWorkers
 	}
+
 	if b.Poll == nil {
 		b.Poll = &cfg.Poll
 	}
+
 	if b.PollInterval == nil {
 		b.PollInterval = &cfg.PollInterval
 	}
+
 	if b.ParseJSON == nil {
 		b.ParseJSON = &cfg.ParseJSON
 	}
+
 	if b.TimeStampEpoch == nil {
 		b.TimeStampEpoch = cfg.TimeStampEpoch
 	}
+
 	if b.ExpandEventListFromField == "" {
 		b.ExpandEventListFromField = cfg.ExpandEventListFromField
 	}
+
 	if len(b.FileSelectors) == 0 && len(cfg.FileSelectors) != 0 {
 		b.FileSelectors = cfg.FileSelectors
 	}
-	b.ReaderConfig = cfg.ReaderConfig
+
+	// If the bucket level ReaderConfig matches the default config ReaderConfig state,
+	// use the global ReaderConfig. Matching the default ReaderConfig state
+	// means that the bucket level ReaderConfig is not set, and we should use the
+	// global ReaderConfig. Partial definition of ReaderConfig at both the global
+	// and bucket level is not supported, it's an either or scenario.
+	if reflect.DeepEqual(b.ReaderConfig, defaultReaderConfig) {
+		b.ReaderConfig = cfg.ReaderConfig
+	}
 
 	return b
 }
@@ -141,6 +158,13 @@ func (input *gcsInput) Run(inputCtx v2.Context, src cursor.Source,
 	st := newState()
 	currentSource := src.(*Source)
 
+	stat := inputCtx.StatusReporter
+	if stat == nil {
+		stat = noopReporter{}
+	}
+	stat.UpdateStatus(status.Starting, "")
+	stat.UpdateStatus(status.Configuring, "")
+
 	log := inputCtx.Logger.With("project_id", currentSource.ProjectId).With("bucket", currentSource.BucketName)
 	log.Infof("Running google cloud storage for project: %s", input.config.ProjectId)
 	// create a new inputMetrics instance
@@ -152,6 +176,7 @@ func (input *gcsInput) Run(inputCtx v2.Context, src cursor.Source,
 	if !cursor.IsNew() {
 		if err := cursor.Unpack(&cp); err != nil {
 			metrics.errorsTotal.Inc()
+			stat.UpdateStatus(status.Failed, "failed to configure input: "+err.Error())
 			return err
 		}
 
@@ -167,6 +192,7 @@ func (input *gcsInput) Run(inputCtx v2.Context, src cursor.Source,
 	client, err := fetchStorageClient(ctx, input.config)
 	if err != nil {
 		metrics.errorsTotal.Inc()
+		stat.UpdateStatus(status.Failed, "failed to get storage client: "+err.Error())
 		return err
 	}
 
@@ -183,7 +209,11 @@ func (input *gcsInput) Run(inputCtx v2.Context, src cursor.Source,
 		// Since we are only reading, the operation is always idempotent
 		storage.WithPolicy(storage.RetryAlways),
 	)
-	scheduler := newScheduler(publisher, bucket, currentSource, &input.config, st, metrics, log)
+	scheduler := newScheduler(publisher, bucket, currentSource, &input.config, st, stat, metrics, log)
 
 	return scheduler.schedule(ctx)
 }
+
+type noopReporter struct{}
+
+func (noopReporter) UpdateStatus(status.Status, string) {}

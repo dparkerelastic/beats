@@ -54,6 +54,7 @@ func AutodiscoverBuilder(
 	uuid uuid.UUID,
 	c *conf.C,
 	keystore keystore.Keystore,
+	logger *logp.Logger,
 ) (autodiscover.Provider, error) {
 	cfgwarn.Experimental("The nomad autodiscover provider is experimental.")
 
@@ -73,7 +74,7 @@ func AutodiscoverBuilder(
 		return nil, fmt.Errorf("failed to initialize nomad API client: %w", err)
 	}
 
-	mapper, err := template.NewConfigMapper(config.Templates, keystore, nil)
+	mapper, err := template.NewConfigMapper(config.Templates, keystore, nil, logger)
 	if err != nil {
 		return nil, err
 	}
@@ -118,7 +119,7 @@ func AutodiscoverBuilder(
 		return nil, fmt.Errorf("failed to initialize nomad watcher: %w", err)
 	}
 
-	logger := logp.NewLogger("nomad")
+	logger = logger.Named("nomad")
 	p := &Provider{
 		config:    config,
 		bus:       bus,
