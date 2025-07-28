@@ -1,0 +1,137 @@
+// Licensed to Elasticsearch B.V. under one or more contributor
+// license agreements. See the NOTICE file distributed with
+// this work for additional information regarding copyright
+// ownership. Elasticsearch B.V. licenses this file to you under
+// the Apache License, Version 2.0 (the "License"); you may
+// not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing,
+// software distributed under the License is distributed on an
+// "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+// KIND, either express or implied.  See the License for the
+// specific language governing permissions and limitations
+// under the License.
+
+package netapp
+
+import (
+	"encoding/json"
+	"fmt"
+	"net"
+	"strings"
+	"time"
+
+	"github.com/elastic/elastic-agent-libs/logp"
+)
+
+func StringToBool(s string) (bool, error) {
+	s = strings.ToLower(s)
+	switch s {
+	case "yes":
+		return true, nil
+	case "true":
+		return true, nil
+	case "no":
+		return false, nil
+	case "false":
+		return false, nil
+	}
+
+	// Default to false
+	return false, fmt.Errorf("invalid value: %s", s)
+}
+
+func CreateArray[T any](size int, defaultValue T) []T {
+	array := make([]T, size)
+	for i := range array {
+		array[i] = defaultValue
+	}
+	return array
+}
+
+type HostInfo struct {
+	IP       string
+	Hostname string
+}
+
+func GetHostInfo(input string) (HostInfo, error) {
+	var hostInfo HostInfo
+
+	// Try to parse the input as an IP address
+	ip := net.ParseIP(input)
+	if ip != nil {
+		hostInfo.IP = ip.String()
+		// Perform a reverse lookup to get the hostname
+		names, err := net.LookupAddr(ip.String())
+		if err != nil {
+			// If the reverse lookup fails, set the hostname to "hostname not found" and let the calling
+			// function handle the error by logging a warning - we don't want to quit over this
+			hostInfo.Hostname = "hostname not found"
+			return hostInfo, err
+		}
+		if len(names) > 0 {
+			hostInfo.Hostname = names[0]
+		} else {
+			hostInfo.Hostname = "hostname not found"
+		}
+
+	} else {
+		// Try to resolve the input as a hostname
+		addrs, err := net.LookupHost(input)
+		if err != nil {
+			return hostInfo, fmt.Errorf("failed to lookup IP for hostname %s: %v", input, err)
+		}
+		if len(addrs) > 0 {
+			hostInfo.IP = addrs[0]
+			hostInfo.Hostname = input
+		}
+	}
+
+	return hostInfo, nil
+}
+
+func ToJSONString(v interface{}) (string, error) {
+	b, err := json.Marshal(v)
+	if err != nil {
+		return "", err
+	}
+	return string(b), nil
+}
+
+func FromJSONString(s string, v interface{}) error {
+
+	err := json.Unmarshal([]byte(s), v)
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func ConvertStringTime(value string) (*time.Time, error) {
+	if value == "" {
+		return nil, fmt.Errorf("start_time is empty")
+	}
+
+	const layout = "2006-01-02 15:04:05"
+	t, err := time.Parse(layout, value)
+	if err != nil {
+		return nil, fmt.Errorf("invalid start_time format: %w", err)
+	}
+
+	return &t, nil
+}
+
+func GetLogger(fullName string) *logp.Logger {
+	return logp.NewLogger(fullName)
+}
+
+func IntArrayToString(arr []int) string {
+	strs := make([]string, len(arr))
+	for i, v := range arr {
+		strs[i] = fmt.Sprintf("%d", v)
+	}
+	return strings.Join(strs, ",")
+}

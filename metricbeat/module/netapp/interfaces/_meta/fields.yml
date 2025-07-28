@@ -1,0 +1,18 @@
+- name: interfaces
+  type: group
+  release: beta
+  description: >
+    interfaces
+  fields:
+    - name: if_name
+      type: keyword
+      description: >
+        Interface name
+    - name: metric_name
+      type: keyword
+      description: >
+        Metric name
+    - name: value
+      type: long
+      description: >
+        Metric value

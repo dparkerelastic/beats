@@ -1,0 +1,21 @@
+# Module: netapp
+# Docs: https://www.elastic.co/guide/en/beats/metricbeat/main/metricbeat-module-netapp.html
+
+- module: netapp
+  metricsets: 
+    - storage
+    - protocols
+    - cluster
+    - interfaces
+  enabled: false
+  period: 10s
+  host: localhost
+  protocol: https
+  port: 443
+  # timeout on requests in seconds
+  return_timeout: 30
+  username: ${NETAPP_USERNAME}
+  password: ${NETAPP_PASSWORD}
+  snmp_base_oid: ${NETAPP_BASE_OID}  
+  snmp_community: ${NETAPP_COMMUNITY}
+  snmp_port: 161
