@@ -1,8 +1,12 @@
 - module: purestorage
-  metricsets: 
-    - "arrays"
-    - "health"
-  enabled: false
-  period: 10s
-  hosts: ["localhost"]
-
+  metricsets:
+   - health 
+   - arrays
+  enabled: false 
+  period: 120s
+  host: localhost
+  api_version: 1.19
+  api_key: ${PURE_API_KEY}
+  snmp_base_oid: ${PURE_BASE_OID}  
+  snmp_community: ${PURE_COMMUNITY}
+  snmp_port: 161
