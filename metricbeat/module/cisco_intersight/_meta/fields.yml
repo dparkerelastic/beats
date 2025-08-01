@@ -1,0 +1,10 @@
+- key: cisco_intersight
+  title: "cisco_intersight"
+  release: beta
+  description: >
+    cisco_intersight module
+  fields:
+    - name: cisco_intersight
+      type: group
+      description: >
+      fields:
