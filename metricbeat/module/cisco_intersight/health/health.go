@@ -172,7 +172,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	}
 
 	// Execute the telemetry query using the API client
-	responseData, resp, err := client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(FanTelemetryDruidGroupByRequestStruct(m.period, currentTime, m.previousTime)).Execute()
+	responseData, resp, err := client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(FanTelemetryDruidGroupByRequestStruct(currentTime, m.previousTime)).Execute()
 	if err != nil {
 		m.logger.Warnf("FanTelemetryDruidGroupByRequest failed; %v", err)
 	} else if resp.StatusCode != 200 {
@@ -187,7 +187,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	}
 
 	// Execute the telemetry query using the API client
-	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(MemoryTelemetryDruidGroupByRequestStruct(m.period, currentTime, m.previousTime)).Execute()
+	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(MemoryTelemetryDruidGroupByRequestStruct(currentTime, m.previousTime)).Execute()
 	if err != nil {
 		m.logger.Warnf("VoltgageTelemetryDruidGroupByRequestStruct failed; %v", err)
 	} else if resp.StatusCode != 200 {
@@ -203,7 +203,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	}
 
 	// Execute the telemetry query using the API client
-	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(PhysicalProcessorTelemetryDruidGroupByRequestStruct(m.period, currentTime, m.previousTime)).Execute()
+	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(PhysicalProcessorTelemetryDruidGroupByRequestStruct(currentTime, m.previousTime)).Execute()
 	if err != nil {
 		m.logger.Warnf("VoltgageTelemetryDruidGroupByRequestStruct failed; %v", err)
 	} else if resp.StatusCode != 200 {
@@ -218,7 +218,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	}
 
 	// Execute the telemetry query using the API client
-	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(PowerSupplyTelemetryDruidGroupByRequestStruct(m.period, currentTime, m.previousTime)).Execute()
+	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(PowerSupplyTelemetryDruidGroupByRequestStruct(currentTime, m.previousTime)).Execute()
 	if err != nil {
 		m.logger.Warnf("PowerSupplyTelemetryDruidGroupByRequestStruct failed; %v", err)
 	} else if resp.StatusCode != 200 {
@@ -233,7 +233,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	}
 
 	// Execute the telemetry query using the API client
-	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(TemperatureTelemetryDruidGroupByRequestStruct(m.period, currentTime, m.previousTime)).Execute()
+	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(TemperatureTelemetryDruidGroupByRequestStruct(currentTime, m.previousTime)).Execute()
 	if err != nil {
 		m.logger.Warnf("TemperatureTelemetryDruidGroupByRequestStruct failed; %v", err)
 	} else if resp.StatusCode != 200 {
@@ -248,7 +248,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	}
 
 	// Execute the telemetry query using the API client
-	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(SystemCPUTelemetryDruidGroupByRequestStruct(m.period, currentTime, m.previousTime)).Execute()
+	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(SystemCPUTelemetryDruidGroupByRequestStruct(currentTime, m.previousTime)).Execute()
 	if err != nil {
 		m.logger.Warnf("TemperatureTelemetryDruidGroupByRequestStruct failed; %v", err)
 	} else if resp.StatusCode != 200 {
@@ -263,7 +263,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	}
 
 	// Execute the telemetry query using the API client
-	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(SystemMemoryTelemetryDruidGroupByRequestStruct(m.period, currentTime, m.previousTime)).Execute()
+	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(SystemMemoryTelemetryDruidGroupByRequestStruct(currentTime, m.previousTime)).Execute()
 	if err != nil {
 		m.logger.Warnf("TemperatureTelemetryDruidGroupByRequestStruct failed; %v", err)
 	} else if resp.StatusCode != 200 {
@@ -279,7 +279,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	}
 
 	// Execute the telemetry query using the API client
-	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(HostPowerAndStatusTelemetryDruidGroupByRequestStruct(m.period, currentTime, m.previousTime)).Execute()
+	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(HostPowerAndStatusTelemetryDruidGroupByRequestStruct(currentTime, m.previousTime)).Execute()
 	if err != nil {
 		m.logger.Warnf("HostPowerAndStatusTelemetryDruidGroupByRequestStruct failed; %v", err)
 	} else if resp.StatusCode != 200 {
@@ -295,7 +295,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	}
 
 	// Execute the telemetry query using the API client
-	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(GraphicalProcessingUnitTelemetryDruidGroupByRequestStruct(m.period, currentTime, m.previousTime)).Execute()
+	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(GraphicalProcessingUnitTelemetryDruidGroupByRequestStruct(currentTime, m.previousTime)).Execute()
 	if err != nil {
 		m.logger.Warnf("HostPowerAndStatusTelemetryDruidGroupByRequestStruct failed; %v", err)
 	} else if resp.StatusCode != 200 {
@@ -310,7 +310,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	}
 
 	// Execute the telemetry query using the API client
-	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(SignalPowerTelemetryDruidGroupByRequestStruct(m.period, currentTime, m.previousTime)).Execute()
+	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(SignalPowerTelemetryDruidGroupByRequestStruct(currentTime, m.previousTime)).Execute()
 	if err != nil {
 		m.logger.Warnf("HostPowerAndStatusTelemetryDruidGroupByRequestStruct failed; %v", err)
 	} else if resp.StatusCode != 200 {
@@ -326,7 +326,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	}
 
 	// Execute the telemetry query using the API client
-	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(ElectricCurrentTelemetryDruidGroupByRequestStruct(m.period, currentTime, m.previousTime)).Execute()
+	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(ElectricCurrentTelemetryDruidGroupByRequestStruct(currentTime, m.previousTime)).Execute()
 	if err != nil {
 		m.logger.Warnf("HostPowerAndStatusTelemetryDruidGroupByRequestStruct failed; %v", err)
 	} else if resp.StatusCode != 200 {
@@ -341,7 +341,7 @@ func (m *MetricSet) Fetch(reporter mb.ReporterV2) error {
 	}
 
 	// Execute the telemetry query using the API client
-	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(VoltageTelemetryDruidGroupByRequestStruct(m.period, currentTime, m.previousTime)).Execute()
+	responseData, resp, err = client.TelemetryApi.QueryTelemetryGroupBy(authCtx).TelemetryDruidGroupByRequest(VoltageTelemetryDruidGroupByRequestStruct(currentTime, m.previousTime)).Execute()
 	if err != nil {
 		m.logger.Warnf("HostPowerAndStatusTelemetryDruidGroupByRequestStruct failed; %v", err)
 	} else if resp.StatusCode != 200 {

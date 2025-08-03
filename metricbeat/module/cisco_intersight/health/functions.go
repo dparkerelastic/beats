@@ -1,7 +1,6 @@
 package health
 
 import (
-	"strconv"
 	"time"
 
 	intersight "github.com/CiscoDevNet/intersight-go"
@@ -11,11 +10,7 @@ import (
 // To get extra attributes, add them as dimensions in the request.
 // For example, to get "hw.fan.serial" and "hw.fan.model", add them to Dimensions.
 
-func FanTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
-
-	// Convert period to seconds as string
-	periodSeconds := int(period.Seconds())
-	periodStr := "PT" + strconv.Itoa(periodSeconds) + "S"
+func FanTelemetryDruidGroupByRequestStruct(currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
 
 	return intersight.TelemetryDruidGroupByRequest{
 		QueryType: "groupBy",
@@ -25,12 +20,20 @@ func FanTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime tim
 				Name: "PhysicalEntities",
 			},
 		},
+		//Granularity: "all",
 		Granularity: intersight.TelemetryDruidGranularity{
 			TelemetryDruidPeriodGranularity: &intersight.TelemetryDruidPeriodGranularity{
-				Type:   "period",
-				Period: periodStr,
+				Type:   "all",
+				Period: "all",
 			},
 		},
+		// },
+		// Granularity: intersight.TelemetryDruidGranularity{
+		// 	TelemetryDruidDurationGranularity: &intersight.TelemetryDruidDurationGranularity{
+		// 		Type:     "duration",
+		// 		Duration: int64(0),
+		// 	},
+		// },
 		Intervals: []string{
 			previousTime.UTC().Format("2006-01-02T15:04:05.000Z") + "/" +
 				currentTime.UTC().Format("2006-01-02T15:04:05.000Z"),
@@ -148,11 +151,7 @@ func FanTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime tim
 	}
 }
 
-func MemoryTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
-
-	// Convert period to seconds as string
-	periodSeconds := int(period.Seconds())
-	periodStr := "PT" + strconv.Itoa(periodSeconds) + "S"
+func MemoryTelemetryDruidGroupByRequestStruct(currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
 
 	return intersight.TelemetryDruidGroupByRequest{
 		QueryType: "groupBy",
@@ -164,8 +163,8 @@ func MemoryTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime 
 		},
 		Granularity: intersight.TelemetryDruidGranularity{
 			TelemetryDruidPeriodGranularity: &intersight.TelemetryDruidPeriodGranularity{
-				Type:   "period",
-				Period: periodStr,
+				Type:   "all",
+				Period: "all",
 			},
 		},
 		Intervals: []string{
@@ -316,11 +315,7 @@ func MemoryTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime 
 
 }
 
-func PhysicalProcessorTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
-
-	// Convert period to seconds as string
-	periodSeconds := int(period.Seconds())
-	periodStr := "PT" + strconv.Itoa(periodSeconds) + "S"
+func PhysicalProcessorTelemetryDruidGroupByRequestStruct(currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
 
 	return intersight.TelemetryDruidGroupByRequest{
 		QueryType: "groupBy",
@@ -332,8 +327,8 @@ func PhysicalProcessorTelemetryDruidGroupByRequestStruct(period time.Duration, c
 		},
 		Granularity: intersight.TelemetryDruidGranularity{
 			TelemetryDruidPeriodGranularity: &intersight.TelemetryDruidPeriodGranularity{
-				Type:   "period",
-				Period: periodStr,
+				Type:   "all",
+				Period: "all",
 			},
 		},
 		Intervals: []string{
@@ -456,11 +451,7 @@ func PhysicalProcessorTelemetryDruidGroupByRequestStruct(period time.Duration, c
 
 }
 
-func PowerSupplyTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
-
-	// Convert period to seconds as string
-	periodSeconds := int(period.Seconds())
-	periodStr := "PT" + strconv.Itoa(periodSeconds) + "S"
+func PowerSupplyTelemetryDruidGroupByRequestStruct(currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
 
 	return intersight.TelemetryDruidGroupByRequest{
 		QueryType: "groupBy",
@@ -472,8 +463,8 @@ func PowerSupplyTelemetryDruidGroupByRequestStruct(period time.Duration, current
 		},
 		Granularity: intersight.TelemetryDruidGranularity{
 			TelemetryDruidPeriodGranularity: &intersight.TelemetryDruidPeriodGranularity{
-				Type:   "period",
-				Period: periodStr,
+				Type:   "all",
+				Period: "all",
 			},
 		},
 		Intervals: []string{
@@ -617,11 +608,7 @@ func PowerSupplyTelemetryDruidGroupByRequestStruct(period time.Duration, current
 
 }
 
-func TemperatureTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
-
-	// Convert period to seconds as string
-	periodSeconds := int(period.Seconds())
-	periodStr := "PT" + strconv.Itoa(periodSeconds) + "S"
+func TemperatureTelemetryDruidGroupByRequestStruct(currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
 
 	return intersight.TelemetryDruidGroupByRequest{
 		QueryType: "groupBy",
@@ -633,8 +620,8 @@ func TemperatureTelemetryDruidGroupByRequestStruct(period time.Duration, current
 		},
 		Granularity: intersight.TelemetryDruidGranularity{
 			TelemetryDruidPeriodGranularity: &intersight.TelemetryDruidPeriodGranularity{
-				Type:   "period",
-				Period: periodStr,
+				Type:   "all",
+				Period: "all",
 			},
 		},
 		Intervals: []string{
@@ -740,11 +727,7 @@ func TemperatureTelemetryDruidGroupByRequestStruct(period time.Duration, current
 	}
 }
 
-func SystemCPUTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
-
-	// Convert period to seconds as string
-	periodSeconds := int(period.Seconds())
-	periodStr := "PT" + strconv.Itoa(periodSeconds) + "S"
+func SystemCPUTelemetryDruidGroupByRequestStruct(currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
 
 	return intersight.TelemetryDruidGroupByRequest{
 		QueryType: "groupBy",
@@ -756,8 +739,8 @@ func SystemCPUTelemetryDruidGroupByRequestStruct(period time.Duration, currentTi
 		},
 		Granularity: intersight.TelemetryDruidGranularity{
 			TelemetryDruidPeriodGranularity: &intersight.TelemetryDruidPeriodGranularity{
-				Type:   "period",
-				Period: periodStr,
+				Type:   "all",
+				Period: "all",
 			},
 		},
 		Intervals: []string{
@@ -863,11 +846,7 @@ func SystemCPUTelemetryDruidGroupByRequestStruct(period time.Duration, currentTi
 	}
 }
 
-func SystemMemoryTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
-
-	// Convert period to seconds as string
-	periodSeconds := int(period.Seconds())
-	periodStr := "PT" + strconv.Itoa(periodSeconds) + "S"
+func SystemMemoryTelemetryDruidGroupByRequestStruct(currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
 
 	return intersight.TelemetryDruidGroupByRequest{
 		QueryType: "groupBy",
@@ -879,8 +858,8 @@ func SystemMemoryTelemetryDruidGroupByRequestStruct(period time.Duration, curren
 		},
 		Granularity: intersight.TelemetryDruidGranularity{
 			TelemetryDruidPeriodGranularity: &intersight.TelemetryDruidPeriodGranularity{
-				Type:   "period",
-				Period: periodStr,
+				Type:   "all",
+				Period: "all",
 			},
 		},
 		Intervals: []string{
@@ -972,11 +951,7 @@ func SystemMemoryTelemetryDruidGroupByRequestStruct(period time.Duration, curren
 	}
 }
 
-func HostPowerAndStatusTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
-
-	// Convert period to seconds as string
-	periodSeconds := int(period.Seconds())
-	periodStr := "PT" + strconv.Itoa(periodSeconds) + "S"
+func HostPowerAndStatusTelemetryDruidGroupByRequestStruct(currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
 
 	return intersight.TelemetryDruidGroupByRequest{
 		QueryType: "groupBy",
@@ -988,8 +963,8 @@ func HostPowerAndStatusTelemetryDruidGroupByRequestStruct(period time.Duration, 
 		},
 		Granularity: intersight.TelemetryDruidGranularity{
 			TelemetryDruidPeriodGranularity: &intersight.TelemetryDruidPeriodGranularity{
-				Type:   "period",
-				Period: periodStr,
+				Type:   "all",
+				Period: "all",
 			},
 		},
 		Intervals: []string{
@@ -1067,11 +1042,7 @@ func HostPowerAndStatusTelemetryDruidGroupByRequestStruct(period time.Duration, 
 	}
 }
 
-func GraphicalProcessingUnitTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
-
-	// Convert period to seconds as string
-	periodSeconds := int(period.Seconds())
-	periodStr := "PT" + strconv.Itoa(periodSeconds) + "S"
+func GraphicalProcessingUnitTelemetryDruidGroupByRequestStruct(currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
 
 	return intersight.TelemetryDruidGroupByRequest{
 		QueryType: "groupBy",
@@ -1083,8 +1054,8 @@ func GraphicalProcessingUnitTelemetryDruidGroupByRequestStruct(period time.Durat
 		},
 		Granularity: intersight.TelemetryDruidGranularity{
 			TelemetryDruidPeriodGranularity: &intersight.TelemetryDruidPeriodGranularity{
-				Type:   "period",
-				Period: periodStr,
+				Type:   "all",
+				Period: "all",
 			},
 		},
 		Intervals: []string{
@@ -1162,11 +1133,7 @@ func GraphicalProcessingUnitTelemetryDruidGroupByRequestStruct(period time.Durat
 	}
 }
 
-func SignalPowerTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
-
-	// Convert period to seconds as string
-	periodSeconds := int(period.Seconds())
-	periodStr := "PT" + strconv.Itoa(periodSeconds) + "S"
+func SignalPowerTelemetryDruidGroupByRequestStruct(currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
 
 	return intersight.TelemetryDruidGroupByRequest{
 		QueryType: "groupBy",
@@ -1178,8 +1145,8 @@ func SignalPowerTelemetryDruidGroupByRequestStruct(period time.Duration, current
 		},
 		Granularity: intersight.TelemetryDruidGranularity{
 			TelemetryDruidPeriodGranularity: &intersight.TelemetryDruidPeriodGranularity{
-				Type:   "period",
-				Period: periodStr,
+				Type:   "all",
+				Period: "all",
 			},
 		},
 		Intervals: []string{
@@ -1257,11 +1224,7 @@ func SignalPowerTelemetryDruidGroupByRequestStruct(period time.Duration, current
 	}
 }
 
-func ElectricCurrentTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
-
-	// Convert period to seconds as string
-	periodSeconds := int(period.Seconds())
-	periodStr := "PT" + strconv.Itoa(periodSeconds) + "S"
+func ElectricCurrentTelemetryDruidGroupByRequestStruct(currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
 
 	return intersight.TelemetryDruidGroupByRequest{
 		QueryType: "groupBy",
@@ -1273,8 +1236,8 @@ func ElectricCurrentTelemetryDruidGroupByRequestStruct(period time.Duration, cur
 		},
 		Granularity: intersight.TelemetryDruidGranularity{
 			TelemetryDruidPeriodGranularity: &intersight.TelemetryDruidPeriodGranularity{
-				Type:   "period",
-				Period: periodStr,
+				Type:   "all",
+				Period: "all",
 			},
 		},
 		Intervals: []string{
@@ -1352,11 +1315,7 @@ func ElectricCurrentTelemetryDruidGroupByRequestStruct(period time.Duration, cur
 	}
 }
 
-func VoltageTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
-
-	// Convert period to seconds as string
-	periodSeconds := int(period.Seconds())
-	periodStr := "PT" + strconv.Itoa(periodSeconds) + "S"
+func VoltageTelemetryDruidGroupByRequestStruct(currentTime time.Time, previousTime time.Time) intersight.TelemetryDruidGroupByRequest {
 
 	return intersight.TelemetryDruidGroupByRequest{
 		QueryType: "groupBy",
@@ -1368,8 +1327,8 @@ func VoltageTelemetryDruidGroupByRequestStruct(period time.Duration, currentTime
 		},
 		Granularity: intersight.TelemetryDruidGranularity{
 			TelemetryDruidPeriodGranularity: &intersight.TelemetryDruidPeriodGranularity{
-				Type:   "period",
-				Period: periodStr,
+				Type:   "all",
+				Period: "all",
 			},
 		},
 		Intervals: []string{
