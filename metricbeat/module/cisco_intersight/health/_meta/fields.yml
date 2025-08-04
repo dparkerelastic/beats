@@ -1,0 +1,685 @@
+- name: health
+  type: group
+  release: beta
+  description: >
+    Cisco Intersight health monitoring metrics
+  fields:
+    # Common fields
+    - name: time_stamp
+      type: date
+      description: Timestamp of the telemetry event
+    - name: version
+      type: keyword
+      description: Version information
+    - name: message
+      type: text
+      description: Debug message containing raw JSON data
+
+    # Compute Physical Summary fields
+    - name: compute_physical_summary
+      type: group
+      description: Compute physical summary information
+      fields:
+        - name: class_id
+          type: keyword
+          description: Class identifier
+        - name: object_type
+          type: keyword
+          description: Object type
+        - name: admin_power_state
+          type: keyword
+          description: Administrative power state
+        - name: asset_tag
+          type: keyword
+          description: Asset tag
+        - name: available_memory
+          type: long
+          description: Available memory in bytes
+        - name: bios_post_complete
+          type: boolean
+          description: BIOS POST completion status
+        - name: chassis_id
+          type: keyword
+          description: Chassis identifier
+        - name: connection_status
+          type: keyword
+          description: Connection status
+        - name: cooling_mode
+          type: keyword
+          description: Cooling mode
+        - name: cpu_capacity
+          type: float
+          description: CPU capacity
+        - name: device_mo_id
+          type: keyword
+          description: Device managed object ID
+        - name: dn
+          type: keyword
+          description: Distinguished name
+        - name: fault_summary
+          type: long
+          description: Fault summary count
+        - name: firmware
+          type: keyword
+          description: Firmware version
+        - name: front_panel_lock_state
+          type: keyword
+          description: Front panel lock state
+        - name: hardware_uuid
+          type: keyword
+          description: Hardware UUID
+        - name: ipv4_address
+          type: ip
+          description: IPv4 address
+        - name: is_upgraded
+          type: boolean
+          description: Upgrade status
+        - name: kvm_server_state_enabled
+          type: boolean
+          description: KVM server state enabled
+        - name: kvm_vendor
+          type: keyword
+          description: KVM vendor
+        - name: lifecycle
+          type: keyword
+          description: Lifecycle state
+        - name: management_mode
+          type: keyword
+          description: Management mode
+        - name: memory_speed
+          type: keyword
+          description: Memory speed
+        - name: mgmt_ip_address
+          type: ip
+          description: Management IP address
+        - name: model
+          type: keyword
+          description: Model number
+        - name: name
+          type: keyword
+          description: Server name
+        - name: num_adaptors
+          type: long
+          description: Number of adaptors
+        - name: num_cpu_cores
+          type: long
+          description: Number of CPU cores
+        - name: num_cpu_cores_enabled
+          type: long
+          description: Number of enabled CPU cores
+        - name: num_cpus
+          type: long
+          description: Number of CPUs
+        - name: num_eth_host_interfaces
+          type: long
+          description: Number of Ethernet host interfaces
+        - name: num_fc_host_interfaces
+          type: long
+          description: Number of Fibre Channel host interfaces
+        - name: num_threads
+          type: long
+          description: Number of threads
+        - name: oper_power_state
+          type: keyword
+          description: Operational power state
+        - name: oper_state
+          type: keyword
+          description: Operational state
+        - name: operability
+          type: keyword
+          description: Operability status
+        - name: package_version
+          type: keyword
+          description: Package version
+        - name: personality
+          type: keyword
+          description: Server personality
+        - name: platform_type
+          type: keyword
+          description: Platform type
+        - name: presence
+          type: keyword
+          description: Presence status
+        - name: revision
+          type: keyword
+          description: Hardware revision
+        - name: rn
+          type: keyword
+          description: Relative name
+        - name: scaled_mode
+          type: keyword
+          description: Scaled mode
+        - name: serial
+          type: keyword
+          description: Serial number
+        - name: server_id
+          type: keyword
+          description: Server identifier
+        - name: service_profile
+          type: keyword
+          description: Service profile
+        - name: slot_id
+          type: keyword
+          description: Slot identifier
+        - name: source_object_type
+          type: keyword
+          description: Source object type
+        - name: topology_scan_status
+          type: keyword
+          description: Topology scan status
+        - name: total_memory
+          type: long
+          description: Total memory in bytes
+        - name: tunneled_kvm
+          type: boolean
+          description: Tunneled KVM status
+        - name: user_label
+          type: keyword
+          description: User-defined label
+        - name: uuid
+          type: keyword
+          description: UUID
+        - name: vendor
+          type: keyword
+          description: Vendor name
+        - name: oper_reason
+          type: keyword
+          description: Operational reason
+
+    # Chassis fields
+    - name: chassis
+      type: group
+      description: Chassis information
+      fields:
+        - name: class_id
+          type: keyword
+          description: Class identifier
+        - name: object_type
+          type: keyword
+          description: Object type
+        - name: chassis_id
+          type: keyword
+          description: Chassis identifier
+        - name: connection_path
+          type: keyword
+          description: Connection path
+        - name: connection_status
+          type: keyword
+          description: Connection status
+        - name: description
+          type: text
+          description: Chassis description
+        - name: fault_summary
+          type: long
+          description: Fault summary count
+        - name: management_mode
+          type: keyword
+          description: Management mode
+        - name: name
+          type: keyword
+          description: Chassis name
+        - name: oper_reason
+          type: keyword
+          description: Operational reason
+        - name: oper_state
+          type: keyword
+          description: Operational state
+        - name: part_number
+          type: keyword
+          description: Part number
+        - name: pid
+          type: keyword
+          description: Product identifier
+        - name: platform_type
+          type: keyword
+          description: Platform type
+        - name: product_name
+          type: keyword
+          description: Product name
+        - name: sku
+          type: keyword
+          description: SKU
+        - name: user_label
+          type: keyword
+          description: User-defined label
+        - name: vid
+          type: keyword
+          description: Vendor identifier
+        - name: presence
+          type: keyword
+          description: Presence status
+        - name: serial
+          type: keyword
+          description: Serial number
+
+    # Network Element fields
+    - name: network_element
+      type: group
+      description: Network element information
+      fields:
+        - name: class_id
+          type: keyword
+          description: Class identifier
+        - name: object_type
+          type: keyword
+          description: Object type
+        - name: admin_evac_state
+          type: keyword
+          description: Administrative evacuation state
+        - name: admin_inband_interface_state
+          type: keyword
+          description: Administrative inband interface state
+        - name: available_memory
+          type: keyword
+          description: Available memory
+        - name: chassis
+          type: keyword
+          description: Chassis information
+        - name: conf_mod_ts
+          type: keyword
+          description: Configuration modification timestamp
+        - name: conf_mod_ts_backup
+          type: keyword
+          description: Configuration modification timestamp backup
+        - name: connection_status
+          type: keyword
+          description: Connection status
+        - name: default_domain
+          type: keyword
+          description: Default domain
+        - name: ethernet_mode
+          type: keyword
+          description: Ethernet mode
+        - name: ethernet_switching_mode
+          type: keyword
+          description: Ethernet switching mode
+        - name: fault_summary
+          type: long
+          description: Fault summary count
+        - name: fc_mode
+          type: keyword
+          description: Fibre Channel mode
+        - name: fc_switching_mode
+          type: keyword
+          description: Fibre Channel switching mode
+        - name: fpga_upgrade_needed
+          type: boolean
+          description: FPGA upgrade needed
+        - name: inband_ip_address
+          type: ip
+          description: Inband IP address
+        - name: inband_ip_gateway
+          type: ip
+          description: Inband IP gateway
+        - name: inband_ip_mask
+          type: ip
+          description: Inband IP mask
+        - name: inband_vlan
+          type: long
+          description: Inband VLAN
+        - name: inter_cluster_link_state
+          type: keyword
+          description: Inter-cluster link state
+        - name: management_mode
+          type: keyword
+          description: Management mode
+        - name: model
+          type: keyword
+          description: Model number
+        - name: oper_evac_state
+          type: keyword
+          description: Operational evacuation state
+        - name: operability
+          type: keyword
+          description: Operability status
+        - name: out_of_band_ip_address
+          type: ip
+          description: Out-of-band IP address
+        - name: out_of_band_ip_gateway
+          type: ip
+          description: Out-of-band IP gateway
+        - name: out_of_band_ip_mask
+          type: ip
+          description: Out-of-band IP mask
+        - name: out_of_band_ipv4_address
+          type: ip
+          description: Out-of-band IPv4 address
+        - name: out_of_band_ipv4_gateway
+          type: ip
+          description: Out-of-band IPv4 gateway
+        - name: out_of_band_ipv4_mask
+          type: ip
+          description: Out-of-band IPv4 mask
+        - name: out_of_band_ipv6_address
+          type: keyword
+          description: Out-of-band IPv6 address
+        - name: out_of_band_ipv6_gateway
+          type: keyword
+          description: Out-of-band IPv6 gateway
+        - name: out_of_band_ipv6_prefix
+          type: long
+          description: Out-of-band IPv6 prefix
+        - name: out_of_band_mac
+          type: keyword
+          description: Out-of-band MAC address
+        - name: part_number
+          type: keyword
+          description: Part number
+        - name: peer_firmware_out_of_sync
+          type: boolean
+          description: Peer firmware out of sync
+        - name: presence
+          type: keyword
+          description: Presence status
+        - name: reserved_vlan_start_id
+          type: long
+          description: Reserved VLAN start ID
+        - name: serial
+          type: keyword
+          description: Serial number
+        - name: status
+          type: keyword
+          description: Status
+        - name: switch_id
+          type: keyword
+          description: Switch identifier
+        - name: switch_profile_name
+          type: keyword
+          description: Switch profile name
+        - name: switch_type
+          type: keyword
+          description: Switch type
+        - name: system_up_time
+          type: keyword
+          description: System uptime
+        - name: thermal
+          type: keyword
+          description: Thermal status
+        - name: total_memory
+          type: long
+          description: Total memory
+        - name: user_label
+          type: keyword
+          description: User-defined label
+        - name: version
+          type: keyword
+          description: Version
+
+    # Asset Device Registration fields
+    - name: asset_device_registration
+      type: group
+      description: Asset device registration information
+      fields:
+        - name: class_id
+          type: keyword
+          description: Class identifier
+        - name: object_type
+          type: keyword
+          description: Object type
+        - name: claimed_by_user_name
+          type: keyword
+          description: Claimed by username
+        - name: claimed_time
+          type: date
+          description: Claimed timestamp
+        - name: device_hostname
+          type: keyword
+          description: Device hostname
+        - name: device_ip_address
+          type: keyword
+          description: Device IP address
+        - name: execution_mode
+          type: keyword
+          description: Execution mode
+        - name: pid
+          type: keyword
+          description: Product identifier
+        - name: platform_type
+          type: keyword
+          description: Platform type
+        - name: read_only
+          type: boolean
+          description: Read-only status
+        - name: serial
+          type: keyword
+          description: Serial number
+        - name: vendor
+          type: keyword
+          description: Vendor name
+
+    # Dynamic telemetry fields - these will be populated based on the Event map
+    # Common telemetry patterns from your functions.go
+    - name: host.name
+      type: keyword
+      description: Host name from telemetry
+    - name: host.type
+      type: keyword
+      description: Host type from telemetry
+    - name: host.id
+      type: keyword
+      description: Host ID from telemetry
+    - name: intersight.asset.device_registration.moid
+      type: keyword
+      description: Device registration MOID
+    - name: hw.fan.speed_max
+      type: long
+      description: Maximum fan speed
+    - name: hw.fan.speed_ratio_max
+      type: long
+      description: Maximum fan speed ratio
+    - name: hw.fan.speed.limit_low_critical_max
+      type: long
+      description: Fan speed low critical limit maximum
+    - name: hw.fan.speed.limit_low_degraded_max
+      type: long
+      description: Fan speed low degraded limit maximum
+    - name: hw.fan.speed.limit_max_max
+      type: long
+      description: Fan speed maximum limit
+    - name: hw.status_min
+      type: long
+      description: Hardware status minimum value
+    - name: hw.memory.size_max
+      type: long
+      description: Memory size maximum
+    - name: hw.memory.speed_max
+      type: long
+      description: Memory speed maximum
+    - name: hw.memory.capacity_max
+      type: long
+      description: Memory capacity maximum
+    - name: hw.processor.cores_max
+      type: long
+      description: Processor cores maximum
+    - name: hw.processor.threads_max
+      type: long
+      description: Processor threads maximum
+    - name: hw.processor.speed_max
+      type: long
+      description: Processor speed maximum
+    - name: hw.power_supply.power_max
+      type: long
+      description: Power supply power maximum
+    - name: hw.power_supply.voltage_max
+      type: long
+      description: Power supply voltage maximum
+    - name: hw.power_supply.current_max
+      type: long
+      description: Power supply current maximum
+    - name: hw.temperature.current_max
+      type: long
+      description: Temperature current maximum
+    - name: hw.temperature.limit_high_critical_max
+      type: long
+      description: Temperature high critical limit maximum
+    - name: hw.temperature.limit_high_degraded_max
+      type: long
+      description: Temperature high degraded limit maximum
+    - name: hw.temperature.limit_low_critical_max
+      type: long
+      description: Temperature low critical limit maximum
+    - name: hw.temperature.limit_low_degraded_max
+      type: long
+      description: Temperature low degraded limit maximum
+    # Additional fields from aggregations in functions.go that should be added to your fields.yml:
+
+    # Fan telemetry fields (already covered in your current fields.yml)
+    
+    # Memory telemetry fields
+    - name: hw.memory.size_min
+      type: long
+      description: Memory size minimum
+    - name: hw.memory.size_count
+      type: long
+      description: Memory size count
+    - name: hw.memory.size
+      type: long
+      description: Memory size total
+    - name: hw.memory.size_avg
+      type: float
+      description: Memory size average (calculated field)
+    - name: hw.errors_uncorrectable_ecc_errors_max
+      type: long
+      description: Maximum uncorrectable ECC errors
+    - name: hw.errors_correctable_ecc_errors_max
+      type: long
+      description: Maximum correctable ECC errors
+    
+    # Additional dimension fields from Memory function
+    - name: parent.id
+      type: keyword
+      description: Parent component ID
+    - name: parent.model
+      type: keyword
+      description: Parent component model
+    - name: parent.serial_number
+      type: keyword
+      description: Parent component serial number
+
+    # CPU/Processor telemetry fields
+    - name: hw.cpu.utilization_c0_max
+      type: long
+      description: Maximum CPU utilization C0 state
+    - name: hw.cpu.utilization_c0_min
+      type: long
+      description: Minimum CPU utilization C0 state
+    - name: hw.cpu.utilization_c0_count
+      type: long
+      description: CPU utilization C0 count
+    - name: hw.cpu.utilization_c0
+      type: long
+      description: CPU utilization C0 total
+    - name: hw.cpu.utilization_c0_avg
+      type: float
+      description: CPU utilization C0 average (calculated field)
+
+    # Power Supply telemetry fields
+    - name: hw.power_supply.utilization_max
+      type: long
+      description: Maximum power supply utilization
+    - name: hw.power_max
+      type: long
+      description: Maximum power
+    - name: hw.power_out_max
+      type: long
+      description: Maximum power output
+    - name: hw.power_supply.limit_max_max
+      type: long
+      description: Power supply maximum limit
+    - name: hw.power_supply.limit_throttled_max
+      type: long
+      description: Power supply throttled limit maximum
+    - name: hw.power_supply.limit_high_critical_max
+      type: long
+      description: Power supply high critical limit maximum
+
+    # Temperature telemetry fields
+    - name: hw.temperature_max
+      type: long
+      description: Maximum temperature
+    - name: hw.temperature_min
+      type: long
+      description: Minimum temperature
+    - name: hw.temperature.limit_low_critical_min
+      type: long
+      description: Temperature low critical limit minimum
+    - name: hw.temperature.limit_high_critical_max
+      type: long
+      description: Temperature high critical limit maximum
+    - name: hw.temperature.limit_high_degraded_max
+      type: long
+      description: Temperature high degraded limit maximum
+
+    # System CPU telemetry fields
+    - name: system.cpu.utilization_system_max
+      type: float
+      description: Maximum system CPU utilization
+    - name: system.cpu.utilization_idle_max
+      type: float
+      description: Maximum idle CPU utilization
+    - name: system.cpu.utilization_user_max
+      type: float
+      description: Maximum user CPU utilization
+    - name: system.cpu.utilization_system_min
+      type: float
+      description: Minimum system CPU utilization
+    - name: system.cpu.utilization_idle_min
+      type: float
+      description: Minimum idle CPU utilization
+    - name: system.cpu.utilization_user_min
+      type: float
+      description: Minimum user CPU utilization
+
+    # System Memory telemetry fields
+    - name: system.memory.usage_free_max
+      type: long
+      description: Maximum free memory usage
+    - name: system.memory.usage_cached_max
+      type: long
+      description: Maximum cached memory usage
+    - name: system.memory.utilization_max
+      type: float
+      description: Maximum memory utilization
+    - name: system.memory.usage_used_max
+      type: long
+      description: Maximum used memory
+
+    # Host Power and Status telemetry fields
+    - name: hw.host.power_max
+      type: float
+      description: Maximum host power
+    - name: hw.host.power_state_min
+      type: long
+      description: Minimum host power state
+
+    # GPU telemetry fields
+    - name: hw.gpu.clockspeed_max
+      type: long
+      description: Maximum GPU clock speed
+    - name: hw.gpu.memory.clockspeed_max
+      type: long
+      description: Maximum GPU memory clock speed
+
+    # Signal Power telemetry fields
+    - name: hw.signal_power_receive_max
+      type: float
+      description: Maximum signal power receive
+    - name: hw.signal_power_transmit_max
+      type: float
+      description: Maximum signal power transmit
+
+    # Electric Current telemetry fields
+    - name: hw.current_max
+      type: float
+      description: Maximum current
+    - name: hw.current_min
+      type: float
+      description: Minimum current
+
+    # Voltage telemetry fields
+    - name: hw.voltage_max
+      type: float
+      description: Maximum voltage
+    - name: hw.voltage_min
+      type: float
+      description: Minimum voltage

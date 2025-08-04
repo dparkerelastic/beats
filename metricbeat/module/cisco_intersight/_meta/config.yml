@@ -1,0 +1,13 @@
+# Module: cisco_intersight
+- module: cisco_intersight
+  metricsets: ["health"]
+  enabled: true 
+  period: 120s  
+  intersight_host:  "intersight.com"
+  intersight_api_key_id: "${INTERSIGHT_API_KEY_ID}"
+  #Please Note this key has to be captured by the the following command:
+  # Documentation:  https://www.elastic.co/guide/en/beats/metricbeat/8.18/keystore.html#add-keys-to-keystore
+  # cat <my_key_secret.txt> | ./metricbeat keystore add INTERSIGHT_PRIVATE_KEY  --stdin --force   
+  # Please Note: this key can either be an ECDSA key or a RSA key.
+  intersight_private_key: "${INTERSIGHT_PRIVATE_KEY}"  
+  debug: false
